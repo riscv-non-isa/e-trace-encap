@@ -1,26 +1,32 @@
 [[chapter2]]
 == Packet Encapsulation
 
-Two types of encapsulation are defined: *normal* and *null*.
+Two types of encapsulation are defined: _normal_ and _null_.
 
 === Normal Encapsulation Structure
 
-The normal encapsulation structure is comprised of four field-groups:
+The normal encapsulation structure is comprised of four field-groups as shown in <<_table_Groups>>:
 
 .Encapsulation Field Groups
+[[_table_Groups]]
 [cols="<2, <1, <9", stripes=even, options="header"]
 |===
 |{set:cellbgcolor:lightblue}Group Name | # Bits | Description
-|{set:cellbgcolor:!} *header* |8| Encapsulation header.  See <<_table_header, Header Fields>> table.
-| *srcID* | 0 - 16 | Source ID.  See <<_table_srcid, srcID Field>> table.
-| *timestamp* | T*8 | Time stamp.  See <<_table_timestamp, timestamp Field>> table.
-| *payload* | 1-248 | Packet payload.  See <<_table_payload, Payload Fields>> table.
+|{set:cellbgcolor:!} *header* |8| Encapsulation header.  See <<_section_Header>>.
+| *srcID* | 0 - 16 | Source ID.  See <<_section_srcID>>. 
+| *timestamp* | T*8 | Time stamp.  See <<_section_Timestamp>>.
+| *payload* | 1-248 | Packet payload.  See <<_section_Payload>>.
 |===
 
-The groups are defined in the following tables:
+The groups are concatenated together with the LSB of the *header* group transmitted first.  The groups are defined in the following tables:
+
+[[_section_Header]]
+==== Header
+
+The header is a single byte comprising the fields defined in  <<_table_Header>>.
 
 .Header Fields
-[[_table_header]]
+[[_table_Header]]
 [cols="<2, <1, <9", stripes=even, options="header"]
 |===
 |{set:cellbgcolor:lightblue}Field Name | # Bits | Description
@@ -30,41 +36,45 @@ The groups are defined in the following tables:
 |===
 
 <<< 
-.srcID Field
-[[_table_srcid]]
-[cols="<2, <1, <9", stripes=even, options="header"]
-|===
-|{set:cellbgcolor:lightblue}Field Name | # Bits | Description
-|{set:cellbgcolor:!} *srcID* |0 - 16 | Identifies the source of the packet. +
-The *srcID* may be omitted (i.e. width = 0) if there is only one source in the system, or if the transport scheme includes a sideband bus for the source ID (for example, ATB, MIPI). +
-If there is no sideband bus for the source ID (as is the case for the Siemens messaging infrastructure), and there is more than one source, the *srcID* field must be non-zero length. +
-When present, an 8-bit *srcID* will be sufficient for most use cases, and is simplest in terms of determining the packet length, keeping all field groups aligned to byte boundaries.  However, the length of the field can be reduced to improve efficiency for small systems, or increased if required for larger systems. 
-|===
+[[_section_srcID]]
+==== srcID
 
-.timestamp Field
-[[_table_timestamp]]
-[cols="<2, <1, <9", stripes=even, options="header"]
-|===
-|{set:cellbgcolor:lightblue}Field Name | # Bits | Description
-|{set:cellbgcolor:!} *timestamp* |T*8 | A Timestamp is included in the encapsulation if *header.extend* is 1.  When included, the timestamp must be T bytes in length.  The length must be discoverable, and fixed for a given system.  This provides a means to include time information with every packet.  Timestamps may be omitted either because time is not of interest to the user, or if time information is already included within the encapsulated payload (for example Enhanced Trace for RISC-V sync-start, sync-trap and sync-context packets).
-|===
+The *srcID* field identifies the source of the packet.  It can be between 0 and 16 bits in length.  This length must be fixed and discoverable for a given system.
+
+The *srcID* may be omitted (i.e. zero bits in length) if there is only one source in the system, or if the transport scheme includes a sideband bus for the source ID (for example, ATB).
+
+When present, an 8-bit *srcID* will be sufficient for most use cases, and is simplest in terms of determining the packet length, keeping all field groups aligned to byte boundaries.  However, the length of the field can be reduced to improve efficiency for small systems, or increased if required for larger systems. See also <<_section_packet_length>>.
+
+[[_section_Timestamp]]
+==== Timestamp
+
+The *timestamp* field provides a means to include time information with every packet.  It is included in the encapsulation if *header.extend* is 1.  When included, the timestamp must be T bytes in length.  The length must be discoverable, and fixed for a given system.
+
+Timestamps may be omitted either because time is not of interest to the user, or if time information is already included within the encapsulated payload (for example some E-Trace packets include may optionally include a *time* field).
+
+[[_section_Payload]]
+==== Payload
+
+The encapsulation payload can be up to 248 bits (31 bytes) in length, and comprises the fields shown in table <<_table_payload>>.
 
 .Payload Fields
 [[_table_payload]]
 [cols="<2, <1, <9", stripes=even, options="header"]
 |===
 |{set:cellbgcolor:lightblue}Field Name | # Bits | Description
-|{set:cellbgcolor:!} *type* |&#8805; 2| Packet type.  Default length is 2 bits.  May optionally be increased to provide for more than 3 data packet types per source.  Length must be fixed for a given *srcID*, and discoverable is > 2. +
+|{set:cellbgcolor:!} *type* |&#8805; 2| Packet type.  Default length is 2 bits.  May optionally be increased to provide for more than 3 data packet types per source.  Length must be fixed for a given *srcID*, and discoverable if > 2. +
+ +
 0: control packet +
-other values: data packet of some sort +
-For E-Trace packets, 2 indicates instruction trace and 3 indicates data trace.  1 may be used for another type of data, such as performance counters. +
-For other types of source, the mapping is source type dependent. +
+other values: data packet of some sort (source type dependent) +
+ +
 Control packets may be used in some applications (for example, the Siemens message infrastructure) for accessing configuration state.
 | *trace_payload* | &#8804; R | Packet payloads such as those defined for E-Trace. +
 Maximum value of R is defined as 248 - Y - *srcID*%8 where Y is the length of the *type* field.  
 |===
 
 <<<
+[[_section_packet_length]]
+==== Packet Length
 Encapsulated packets are a number of whole bytes in length, the exact number depending on the sizes of the *srcID*, *timestamp* (if present) and *header.length*:
 
 [.text-center]
@@ -84,26 +94,34 @@ However, if the *srcID* is not a multiple of 8 bits the remaining *srcID* bits n
 
 === Null Encapsulation
 
-For normal encapsulation, the length field is at least 1, and the overall length of the encapsulated packet will be at least 2 bytes (header plus 1 byte of payload).
+For _normal_ encapsulation, the *header.length* field is at least 1, and the overall length of the encapsulated packet will be at least 2 bytes (*header* plus 1 byte of payload).
 
-A null packet is defined as a single *header* byte with a zero *length* field.  This results in up to 8 different types of null packet, which are defined as follows:
+A _null_ packet is defined as a single *header* byte with a zero *length* field.  This results in up to 8 different types of null packet, which are defined as follows:
 
-* 0x00: _Idle_
-* 0x80: _Alignment_
+* 0x00: _null.idle_
+* 0x80: _null.alignment_
 * Others: reserved
 
-An _idle_ null packet is inserted in the data stream when there are no normal encapsulated packets to send.
+A _null_ packet is inserted in the data stream when there are no _normal_ encapsulated packets to send.
 
 === Synchronization
 
-In a data stream comprised of packets, it’s a requirement to be able to determine where packets start and end, when starting from an arbitrary point, without knowledge of the full packet history.  This can be achieved by inserting a synchronization sequence into the packet stream periodically.  This sequence is comprised of a sufficiently long sequence of _null_ packets.   The longest run of ‘null’ bytes (i.e. bytes with the 5LSBs all zero) possible within a packet is: N =  31 + T + S (T = *timestamp* width in bytes, S = *srcID* width in int(bits/8)). Therefore, in a sequence of N or more ‘null’ bytes, at least the final ‘null’ byte must be a null packet.  The 1st non-null byte seen after this must therefore be the 1st byte of a ‘normal’ packet.
+In a data stream comprised of packets, it’s a requirement to be able to determine where packets start and end, when starting from an arbitrary point, without knowledge of the full packet history.  This can be achieved by inserting a synchronization sequence into the packet stream periodically.  This sequence is comprised of a sufficiently long sequence of _null_ packets.   
 
-For unframed data streams such as PIB which may be transported on interfaces less than 8 bits wide, an alignment null must be transmitted as the final null before a ‘normal’ packet.  The single 1 at the end of this sequence uniquely identifies the byte boundary, and what follows as the start of a packet. For example:
+A 'null' byte is defined as a byte with the 5LSBs all zero, which may be a _null_ packet, or may be part of a _normal_ packet.  The longest run N of ‘null’ bytes possible within a packet is: 
 
-* For two normal packets with M nulls between them, this would comprise M-1 _idles_ and 1 _alignment_
-* The synchronization sequence will comprise N _idles_ followed by 1 _alignment_
+[.text-center]
+N =  31 + T + S 
+(see <<_section_Timestamp>> and <<_section_packet_length>> for definitions of T and S respectively) 
 
-For framed data streams which incorporate synchronization information in their own framing such as MIPI WTF (aka AMBA TPIU) or USB there is no requirement to include alignment nulls.  
+Therefore, in a sequence of N or more ‘null’ bytes, the first N 'null' bytes may actually be part of a packet.  However, any 'null' bytes after this must be _null_ packets, and the 1st non-null byte seen after this must therefore be the 1st byte of a _normal_ packet.
 
-For writing to memory, alternative synchronisation mechanisms may also be employed.  For example, by dividing memory into blocks of known size, and requiring that packets do not straddle block boundaries.  The first byte of every block will therefore be the start of a packet.
+For unframed data streams such as PIB, a _null.alignment_ packet must be transmitted as the final _null_ before a _normal_ packet.  Strictly speaking this is necessary only if the data stream is sent via an interface less than 8 bits wide, but for simplicity this is mandatory for any width.  The single 1 at the end of this sequence uniquely identifies the byte boundary, and what follows as the start of a packet. For example:
+
+* For two _normal_ packets with M _nulls_ between them, this would comprise M-1 _null.idles_ and 1 _null.alignment_
+* The synchronization sequence will comprise N _null.idles_ followed by 1 _null.alignment_
+
+For framed data streams which incorporate synchronization information in their own framing such as MIPI TWP (aka ARM Trace Formatter Protocol) or USB there is no requirement to include _null.alignment_ packets.  
+
+For writing unframed data to memory, alternative synchronisation mechanisms may also be employed.   For example, by dividing memory into blocks of known size, and requiring that packets do not straddle block boundaries.  The first byte of every block will therefore be the start of a packet.  Details of such schemes are out of scope of this specification.
 

@@ -1,0 +1,29 @@
+[[chapter3]]
+== Packet Encapsulation for E-Trace
+
+<<chapter2>> describes the packet encapsulation in general terms.  This chapter describes how that applies in the context of E-Trace.
+
+The https://github.com/riscv-non-isa/tg-nexus-trace/blob/master/pdfs/RISC-V-Trace-Control-Interface.pdf[RISC-V Trace Control Interface Specification] includes several fields relevant for the construction and synchronization of packets, as described in the following sections. 
+
+=== *srcID*
+
+* *trTeInhibitSrc* in the _trTeControl_ register of a trace encoder indicates whether a *srcID* is present or absent in the encapsulated packets;
+* *trTeSrcBits* in the _trTeInstFeatures_ register indicates the length of the *srcID*;
+* *trTeSrcID* in the _trTeInstFeatures_ register indicates the value of the *srcID* associated with that particular source.
+
+=== *timestamp*
+
+* *trTsEnable* in the _trTsControl_ register enables the inclusion of timestamps (i.e. *header.extend* will be set based on the value of this bit);
+* *trTsWidth* in the _trTsControl_ register indicates the number of bits in timestamps.  
+
+=== *type*
+
+For E-Trace, the *type* field in the *payload* group is 2 bits long with the following encodings defined:
+
+* 10: Instruction trace packet
+* 11: Data trace packet
+
+=== Synchronization
+
+* *trPibAsyncFreq* and *trRamSinkAsyncFreq* in the _trPibControl_  and _trRamControl_ registers respectively are used to determine the interval between insertion of synchronization sequences.
+

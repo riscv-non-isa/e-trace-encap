@@ -3,5 +3,6 @@
 This RISC-V specification has been contributed to directly or indirectly by:
 
 [%hardbreaks]
-* Iain Robertson <iain.robertson@siemens.com>
+* Iain Robertson (Siemens) <iain.robertson@siemens.com> - author
+* Michael Schleinkofer (Lauterbach) - reviews
 
