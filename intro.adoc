@@ -11,7 +11,7 @@ This specification defines an encapsulation format suitable for use with a varie
 
 * *ATB* - Advanced Trace Bus, a protocol described in ARM document IHI0032B;
 * *E-Trace* - Abbreviation for https://github.com/riscv-non-isa/riscv-trace-spec/releases/download/v2.0rc2/riscv-trace-spec.pdf[Efficient Trace for RISC-V];
-* *PIB* - Pin Interface Block, a parallel or serial off-chip trace port feeding into a trace probe;
+* *PIB* - Pin Interface Block, a parallel or serial off-chip trace port feeding into a trace probe, as defined in the https://github.com/riscv-non-isa/tg-nexus-trace/blob/master/docs/RISC-V-Trace-Control-Interface.adoc[RISC-V Trace Control Interface Specification];
 * *Trace Encoder* - Hardware module that accepts execution information from a hart and generates a stream of trace packets;
 * *TFP* - Trace Formatter protocol, a trace framing protocol described in ARM document IHI0029E.  Also adopted by MIPI as Trace Wrapper Protocol (TWP);
 * *TWP* - See *TFP*.

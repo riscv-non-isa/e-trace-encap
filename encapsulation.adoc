@@ -1,11 +1,11 @@
 [[chapter2]]
 == Packet Encapsulation
 
-Two types of encapsulation are defined: _normal_ and _null_.
+Two types of encapsulation are defined: _normal_ and _null_. A transmitted stream of encapsulated packets comprises a mixture of _normal_ and _null_ packets.  Each packet is atomic, and must be transmitted in its entirety before another packet can be sent.
 
 === Normal Encapsulation Structure
 
-The normal encapsulation structure is comprised of four field-groups as shown in <<_table_Groups>>:
+The normal encapsulation structure is comprised of four field-groups as shown in <<_table_Groups>>.  In this and the following tables, the field-groups and fields are listed in transmission order: the uppermost field-group or field in a table is transmitted first, and multi-bit fields are transmitted LSB first.
 
 .Encapsulation Field Groups
 [[_table_Groups]]
@@ -50,7 +50,7 @@ When present, an 8-bit *srcID* will be sufficient for most use cases, and is sim
 
 The *timestamp* field provides a means to include time information with every packet.  It is included in the encapsulation if *header.extend* is 1.  When included, the timestamp must be T bytes in length.  The length must be discoverable, and fixed for a given system.
 
-Timestamps may be omitted either because time is not of interest to the user, or if time information is already included within the encapsulated payload (for example some E-Trace packets include may optionally include a *time* field).
+Timestamps may be omitted either because time is not of interest to the user, or if time information is already included within the encapsulated payload.
 
 [[_section_Payload]]
 ==== Payload
@@ -116,12 +116,16 @@ N =  31 + T + S
 
 Therefore, in a sequence of N or more ‘null’ bytes, the first N 'null' bytes may actually be part of a packet.  However, any 'null' bytes after this must be _null_ packets, and the 1st non-null byte seen after this must therefore be the 1st byte of a _normal_ packet.
 
-For unframed data streams such as PIB, a _null.alignment_ packet must be transmitted as the final _null_ before a _normal_ packet.  Strictly speaking this is necessary only if the data stream is sent via an interface less than 8 bits wide, but for simplicity this is mandatory for any width.  The single 1 at the end of this sequence uniquely identifies the byte boundary, and what follows as the start of a packet. For example:
+For unframed data streams such as PIB, a _null.alignment_ packet must be transmitted as the final _null_ before a _normal_ packet.  Strictly speaking this is necessary only if the data stream is sent via an interface less than 8 bits wide, but for simplicity this is mandatory for any width.  The single 1 at the end of this sequence uniquely identifies the byte boundary, and what follows as the start of a packet. For example, for two _normal_ packets with M _nulls_ between them, this would comprise M-1 _null.idles_ and 1 _null.alignment_ (M > 0).
 
-* For two _normal_ packets with M _nulls_ between them, this would comprise M-1 _null.idles_ and 1 _null.alignment_
-* The synchronization sequence will comprise N _null.idles_ followed by 1 _null.alignment_
 
 For framed data streams which incorporate synchronization information in their own framing such as MIPI TWP (aka ARM Trace Formatter Protocol) or USB there is no requirement to include _null.alignment_ packets.  
+
+The synchronization requirements are summarized in the following rules:
+
+* A synchronization sequence must have a length of N+1 bytes (N defined above), comprising: 
+- For unframed data streams, N consecutive _null.idle_ packets, directly followed by one _null.alignment_ packet;
+- For framed data streams, N consecutive _null.idle_ packets, directly followed by one _null.idle_ or _null.alignment_ packet.
 
 For writing unframed data to memory, alternative synchronisation mechanisms may also be employed.   For example, by dividing memory into blocks of known size, and requiring that packets do not straddle block boundaries.  The first byte of every block will therefore be the start of a packet.  Details of such schemes are out of scope of this specification.
 
