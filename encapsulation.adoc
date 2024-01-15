@@ -5,7 +5,7 @@ Two types of encapsulation are defined: _normal_ and _null_. A transmitted strea
 
 === Normal Encapsulation Structure
 
-The normal encapsulation structure is comprised of four field-groups as shown in <<_table_Groups>>.  In this and the following tables, the field-groups and fields are listed in transmission order: the uppermost field-group or field in a table is transmitted first, and multi-bit fields are transmitted LSB first.
+The normal encapsulation structure is comprised of four field-groups as shown in <<_table_Groups>>.  In this and the following tables, the field-groups and fields are listed in transmission order: the uppermost field-group or field in a table is transmitted first, and multi-bit fields are transmitted least significant bit first.
 
 .Encapsulation Field Groups
 [[_table_Groups]]
@@ -18,7 +18,7 @@ The normal encapsulation structure is comprised of four field-groups as shown in
 | *payload* | 1-248 | Packet payload.  See <<_section_Payload>>.
 |===
 
-The groups are concatenated together with the LSB of the *header* group transmitted first.  The groups are defined in the following tables:
+The groups are defined in the following sections:
 
 [[_section_Header]]
 ==== Header
@@ -30,9 +30,9 @@ The header is a single byte comprising the fields defined in  <<_table_Header>>.
 [cols="<2, <1, <9", stripes=even, options="header"]
 |===
 |{set:cellbgcolor:lightblue}Field Name | # Bits | Description
-|{set:cellbgcolor:!} *length* |5| Encapsulated payload length (1 to 31) bytes.  
+|{set:cellbgcolor:!} *length* |5| Encapsulated payload length.  A value of _L_ indicates an _L_ byte payload.  Must be > 0 - see <<_section_null_encapsulation>>.
 | *flow* | 2 | Flow indicator.  This can be used to direct packets to a particular sink in systems where multiple sinks exist, and those sinks include the ability to accept or discard packets based on the flow value.
-| *extend* | 1 | Indicates presence of timestamp when 1.  Reserved if timestamp width is 0.
+| *extend* | 1 | Indicates presence of timestamp when 1.  Must be 0 if timestamp width is 0.
 |===
 
 <<< 
@@ -43,7 +43,7 @@ The *srcID* field identifies the source of the packet.  It can be between 0 and 
 
 The *srcID* may be omitted (i.e. zero bits in length) if there is only one source in the system, or if the transport scheme includes a sideband bus for the source ID (for example, ATB).
 
-When present, an 8-bit *srcID* will be sufficient for most use cases, and is simplest in terms of determining the packet length, keeping all field groups aligned to byte boundaries.  However, the length of the field can be reduced to improve efficiency for small systems, or increased if required for larger systems. See also <<_section_packet_length>>.
+When present, an 8-bit *srcID* will be sufficient for most use cases, and is simplest in terms of determining the packet length, keeping all field groups aligned to byte boundaries.  However, the length of the field can be reduced to improve efficiency for small systems, or increased if required for larger systems. This is explained in more detail in <<_section_packet_length>>.
 
 [[_section_Timestamp]]
 ==== Timestamp
@@ -69,7 +69,7 @@ other values: data packet of some sort (source type dependent) +
  +
 Control packets may be used in some applications (for example, the Siemens message infrastructure) for accessing configuration state.
 | *trace_payload* | &#8804; R | Packet payloads such as those defined for E-Trace. +
-Maximum value of R is defined as 248 - Y - *srcID*%8 where Y is the length of the *type* field.  
+Maximum value of R is defined as 248 - Y - *srcID*%8, where Y is the length of the *type* field.  See <<_section_packet_length>> for details of the relationship between *srcID* and payload length.
 |===
 
 <<<
@@ -92,14 +92,21 @@ However, if the *srcID* is not a multiple of 8 bits the remaining *srcID* bits n
 [.text-center]
 *header.length* = ceiling((#bits(*payload*) + #bits(*srcID*)%8)/8)
 
+In this way, the maximum payload length is reduced by up to 7 when the *srcID* is not a multiple of 8 bits.
+
+[[_section_null_encapsulation]]
 === Null Encapsulation
 
 For _normal_ encapsulation, the *header.length* field is at least 1, and the overall length of the encapsulated packet will be at least 2 bytes (*header* plus 1 byte of payload).
 
-A _null_ packet is defined as a single *header* byte with a zero *length* field.  This results in up to 8 different types of null packet, which are defined as follows:
+A _null_ packet is defined as a single *header* byte with a zero *length* field.  The remaining *header* fields (*flow* and *extend*) allow for up to 8 different types of null packet, which are defined as follows:
 
-* 0x00: _null.idle_
-* 0x80: _null.alignment_
+* _null.idle_
+    - *flow* = 0
+    - *extend* = 0
+* _null.alignment_
+    - *flow* = 0
+    - *extend* = 1
 * Others: reserved
 
 A _null_ packet is inserted in the data stream when there are no _normal_ encapsulated packets to send.

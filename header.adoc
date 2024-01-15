@@ -1,10 +1,10 @@
-= Unformated Trace & Diagnostic Data Packet Encapsulation for RISC-V
+= Unformatted Trace & Diagnostic Data Packet Encapsulation for RISC-V
 Authors: Iain Robertson
 :docgroup: RISC-V Task Group
 :description: Diagnostic & Data Transport Encapsulation
 :company: RISC-V.org
 :revdate: 4/8/2023
-:revnumber: 1.0.2-draft
+:revnumber: 0.0.3-draft
 :revremark: This document is under development. Expect potential changes. Visit http://riscv.org/spec-state for further details.
 :revinfo:
 :url-riscv: http://riscv.org
