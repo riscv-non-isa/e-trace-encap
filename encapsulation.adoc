@@ -99,17 +99,14 @@ In this way, the maximum payload length is reduced by up to 7 when the *srcID* i
 
 For _normal_ encapsulation, the *header.length* field is at least 1, and the overall length of the encapsulated packet will be at least 2 bytes (*header* plus 1 byte of payload).
 
-A _null_ packet is defined as a single *header* byte with a zero *length* field.  The remaining *header* fields (*flow* and *extend*) allow for up to 8 different types of null packet, which are defined as follows:
+A _null_ packet is defined as a single *header* byte with a zero *length* field.  The  *extend* field is used to distinguish 2 different types of null packet, which are defined as follows:
 
 * _null.idle_
-    - *flow* = 0
     - *extend* = 0
 * _null.alignment_
-    - *flow* = 0
     - *extend* = 1
-* Others: reserved
 
-A _null_ packet is inserted in the data stream when there are no _normal_ encapsulated packets to send.
+A _null_ packet is inserted in the data stream when there are no _normal_ encapsulated packets to send.  This typically occurs at a trace sink where there are no sideband signals accompanying the data stream to identify valid data. Packets emitted from a trace source are generally transported over some form of on-chip transport (e.g. ATB) that includes sideband signalling to indicate when data is valid.  In this situation when there is no data to send, valid is simply deasserted.  That said, the *flow* field definition in _null_ packets is unchanged, so _null_ packets can be routed from a trace source to a specific sink if required.  When generated at a sink, the *flow* field value is unimportant and is typically 0.
 
 === Synchronization
 
