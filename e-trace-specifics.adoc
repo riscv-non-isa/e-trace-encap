@@ -13,7 +13,7 @@ The https://github.com/riscv-non-isa/tg-nexus-trace/blob/master/pdfs/RISC-V-Trac
 
 === *timestamp*
 
-* *trTsEnable* in the _trTsControl_ register enables the inclusion of the *timestamp* field in the encapsulated packets (i.e. *header.extend* will be set based on the value of this bit);
+* When *trTsEnable* in the _trTsControl_ register is 1, a timestamp may be optionally included, via the *timestamp* field in the encapsulated packets.  When present, *header.extend* will be 1 as described in <<_section_Timestamp>>;
 * *trTsWidth* in the _trTsControl_ register indicates the number of bits in *timestamp* fields.  
 
 Note that some E-Trace packets may optionally include a *time* field, as an alternative method of providing time information.  Presence or absence of this is fixed for a given system based on a discoverable parameter, but is not run-time configurable.
