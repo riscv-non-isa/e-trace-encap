@@ -27,5 +27,5 @@ For E-Trace, the *type* field in the *payload* group is 2 bits long with the fol
 
 === Synchronization
 
-* *trPibAsyncFreq* and *trRamAsyncFreq* in the _trPibControl_  and _trRamControl_ registers respectively are used to determine the interval between insertion of synchronization sequences.
+* *trPibAsyncFreq*, *trRamAsyncFreq* and *trAtbBridgeAsyncFreq* in the _trPibControl_, _trRamControl_ and _trAtbBridgeControl_ registers respectively are used to determine the interval between insertion of synchronization sequences.
 
