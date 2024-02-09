@@ -94,6 +94,8 @@ However, if the *srcID* is not a multiple of 8 bits the remaining *srcID* bits n
 
 In this way, the maximum payload length is reduced by up to 7 when the *srcID* is not a multiple of 8 bits.
 
+In cases where the number of bits of *payload* + *srcID* is not a multiple of 8, some padding bits are required.  These must be placed in the most significant bits of the final byte of the packet.  Their value is "don't care", but they must not "leak" information (for example, the previous contents of an intermediate buffer that may relate to a different trace session which the current recipient of trace is not authorised to receive).
+
 [[_section_null_encapsulation]]
 === Null Encapsulation
 
