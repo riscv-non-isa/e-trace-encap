@@ -20,10 +20,13 @@ Note that some E-Trace packets may optionally include a *time* field, as an alte
 
 === *type*
 
-For E-Trace, the *type* field in the *payload* group is 2 bits long with the following encodings defined:
+The capabilities of the trace source will determine the minimum width of the *type* field in the *payload* field-group.  For E-Trace:
 
-* 10: Instruction trace packet
-* 11: Data trace packet
+* If only instruction trace is supported, the minimum width is 0 (i.e. the field is omitted)
+* If both instruction and data trace are supported, the minimum width is 1, encoded as
+- 0: Instruction trace packet
+- 1: Data trace packet
+* A width of 2 or more is permited for applications where packet types other than instruction and data trace are required.  Encoding for this case is application specific and not mandated by this standard.
 
 === Synchronization
 

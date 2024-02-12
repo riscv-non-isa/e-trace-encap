@@ -62,12 +62,7 @@ The encapsulation payload can be up to 248 bits (31 bytes) in length, and compri
 [cols="<2, <1, <9", stripes=even, options="header"]
 |===
 |{set:cellbgcolor:lightblue}Field Name | # Bits | Description
-|{set:cellbgcolor:!} *type* |&#8805; 2| Packet type.  Default length is 2 bits.  May optionally be increased to provide for more than 3 data packet types per source.  Length must be fixed for a given *srcID*, and discoverable if > 2. +
- +
-0: control packet +
-other values: data packet of some sort (source type dependent) +
- +
-Control packets may be used in some applications (for example, the Siemens message infrastructure) for accessing configuration state.
+|{set:cellbgcolor:!} *type* |&#8805; 0| Packet type.  May be eliminated (i.e. width set to 0) for sources with only one packet type.  Length must be fixed for a given *srcID*, and discoverable if > 0. +
 | *trace_payload* | &#8804; R | Packet payloads such as those defined for E-Trace. +
 Maximum value of R is defined as 248 - Y - *srcID*%8, where Y is the length of the *type* field.  See <<_section_packet_length>> for details of the relationship between *srcID* and payload length.
 |===
