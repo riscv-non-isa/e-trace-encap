@@ -20,7 +20,7 @@ Note that some E-Trace packets may optionally include a *time* field, as an alte
 
 === *type*
 
-The capabilities of the trace source will determine the minimum width of the *type* field in the *payload* group.  For E-Trace:
+The capabilities of the trace source will determine the minimum width of the *type* field in the *payload*.  For E-Trace:
 
 * If only instruction trace is supported, the minimum width is 0 (i.e. the field is omitted)
 * If both instruction and data trace are supported, the minimum width is 1, encoded as
