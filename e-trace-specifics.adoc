@@ -28,6 +28,7 @@ The capabilities of the trace source will determine the minimum width of the *ty
 - 1: Data trace packet
 * A width of 2 or more is permited for applications where packet types other than instruction and data trace are required.  Encoding for this case is application specific and not mandated by this standard.
 
+<<<
 === Synchronization
 
 * *trPibAsyncFreq*, *trRamAsyncFreq* and *trAtbBridgeAsyncFreq* in the _trPibControl_, _trRamControl_ and _trAtbBridgeControl_ registers respectively are used to determine the interval between insertion of synchronization sequences.

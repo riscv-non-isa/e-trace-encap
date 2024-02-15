@@ -98,10 +98,8 @@ For _normal_ encapsulation, the *header.length* field is at least 1, and the ove
 
 A _null_ packet is defined as a single *header* byte with a zero *length* field.  The  *extend* field is used to distinguish 2 different types of null packet, which are defined as follows:
 
-* _null.idle_
-    - *extend* = 0
-* _null.alignment_
-    - *extend* = 1
+* *extend* = 0: _null.idle_
+* *extend* = 1: _null.alignment_
 
 A _null_ packet is inserted in the data stream when there are no _normal_ encapsulated packets to send.  This typically occurs at a trace sink where there are no sideband signals accompanying the data stream to identify valid data. Packets emitted from a trace source are generally transported over some form of on-chip transport (e.g. ATB) that includes sideband signalling to indicate when data is valid.  In this situation when there is no data to send, valid is simply deasserted.  That said, the *flow* field definition in _null_ packets is unchanged, so _null_ packets can be routed from a trace source to a specific sink if required.  When generated at a sink, the *flow* field value is unimportant and is typically 0.
 
@@ -122,7 +120,6 @@ N =  31 + T + S
 Therefore, in a sequence of N or more ‘null’ bytes, the first N 'null' bytes may actually be part of a packet.  However, any 'null' bytes after this must be _null_ packets, and the 1st non-null byte seen after this must therefore be the 1st byte of a _normal_ packet.
 
 For unframed data streams such as PIB, a _null.alignment_ packet must be transmitted as the final _null_ before a _normal_ packet.  Strictly speaking this is necessary only if the data stream is sent via an interface less than 8 bits wide, but for simplicity this is mandatory for any width.  The single 1 at the end of this sequence uniquely identifies the byte boundary, and what follows as the start of a packet. For example, for two _normal_ packets with M _nulls_ between them, this would comprise M-1 _null.idles_ and 1 _null.alignment_ (M > 0).
-
 
 For framed data streams which incorporate synchronization information in their own framing such as MIPI TWP (aka ARM Trace Formatter Protocol) or USB there is no requirement to include _null.alignment_ packets.  
 
