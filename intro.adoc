@@ -3,7 +3,7 @@
 
 The https://github.com/riscv-non-isa/riscv-trace-spec/releases/download/v2.0rc2/riscv-trace-spec.pdf[Efficient Trace for RISC-V] (E-trace) standard defines packet payloads for instruction and data trace but does not fully define how this should be encapsulated into fully formed packets for transport, nor how instruction and data trace should be differentiated.  Chapter 7 gives some illustrative examples but this is insufficiently detailed and informative only.
 
-Although the primary motivation for developing this standard was to define an encapsulation format for E-Trace packets, the encapsulation format defined in this document is agnostic to the packet payload structure and meaning and so can be used for any kind of unformatted data.  In addition to E-trace, it could also be used for a wide variety of other uses, for example: performance counter metrics, trace or other diagnostic data from a bus fabric monitor or on-chip logic analyser. 
+Although the primary motivation for developing this standard was to define an encapsulation format for E-Trace packets that allows tools to parse and decode them in a standard manner, the encapsulation format defined in this document is agnostic to the packet payload structure and meaning and so can be used for any kind of unformatted data.  In addition to E-trace, it could also be used for a wide variety of other uses, for example: performance counter metrics, trace or other diagnostic data from a bus fabric monitor or on-chip logic analyser. 
 
 It is not suitable for data that has already been formatted into packets, such as N-Trace, which inserts a 2-bit MSEO formatting code into each byte.
 

@@ -7,4 +7,5 @@ This RISC-V specification has been contributed to directly or indirectly by:
 * Michael Schleinkofer (Lauterbach) - reviews
 * Beeman Strong (Rivos) - reviews
 * Robert Chyla (MIPS) - reviews
+* Ved Shanbhogue (Rivos) - reviews
 
