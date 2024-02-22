@@ -96,7 +96,7 @@ In cases where the number of bits of *payload* + *srcID* is not a multiple of 8,
 
 For _normal_ encapsulation, the *header.length* field is at least 1, and the overall length of the encapsulated packet will be at least 2 bytes (*header* plus 1 byte of payload).
 
-A _null_ packet is defined as a single *header* byte with a zero *length* field.  The  *extend* field is used to distinguish 2 different types of null packet, which are defined as follows:
+A _null_ packet is specified as consisting exclusively of one *header* byte with its *length* field set to zero, explicitly indicating the packet's total size as one byte.  The  *extend* field is used to distinguish 2 different types of null packet, which are defined as follows:
 
 * *extend* = 0: _null.idle_
 * *extend* = 1: _null.alignment_
