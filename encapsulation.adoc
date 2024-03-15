@@ -101,12 +101,9 @@ A _null_ packet is specified as consisting exclusively of one *header* byte with
 * *extend* = 0: _null.idle_
 * *extend* = 1: _null.alignment_
 
-A _null_ packet is inserted in the data stream when there are no _normal_ encapsulated packets to send.  This typically occurs at a trace sink where there are no sideband signals accompanying the data stream to identify valid data. Packets emitted from a trace source are generally transported over some form of on-chip transport (e.g. ATB) that includes sideband signalling to indicate when data is valid.  In this situation when there is no data to send, valid is simply deasserted.  That said, the *flow* field definition in _null_ packets is unchanged, so _null_ packets can be routed from a trace source to a specific sink if required.  When generated at a sink, the *flow* field value is unimportant and is typically 0.
-
-<<<
 Usually, _null.idle_ will be used.  _null.alignment_ is used for synchronization, as described in the following section. 
 
-Insertion of _null_ packets typically occurs at a trace sink where there are no sideband signals accompanying the data stream to identify valid data. Packets emitted from a trace source are generally transported over some form of on-chip transport (e.g. ATB) that includes sideband signalling to indicate when data is valid.  In this situation when there is no data to send, valid is simply deasserted.  That said, the *flow* field definition in _null_ packets is unchanged, so _null_ packets can be routed from a trace source to a specific sink if required.  When generated at a sink, the *flow* field value is unimportant and is typically 0.
+Insertion of _null_ packets typically occurs at a trace sink where there are no sideband signals accompanying the data stream to identify valid data. Packets emitted from a trace source are generally transported over some form of on-chip transport (e.g. ATB) that includes sideband signalling to indicate when data is valid.  In this situation when there is no data to send, valid is simply deasserted.  That said, the *flow* field definition in _null_ packets is unchanged, so _null_ packets can be routed from a trace source to a specific sink if required.  When generated at a sink, the *flow* field value is unimportant and is typically 0. If the sink is generating a bit stream (i.e. the byte boundaries are not inherently known to the recipient) then the *flow* field must be zero in all _null_ packets within the generated bitstream. 
 
 === Synchronization
 
