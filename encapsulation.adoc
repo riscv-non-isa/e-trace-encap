@@ -127,7 +127,6 @@ The synchronization requirements are summarized in the following rules:
 - For unframed data streams, N consecutive _null.idle_ packets, directly followed by one _null.alignment_ packet;
 - For framed data streams, N consecutive _null.idle_ packets, directly followed by one _null.idle_ or _null.alignment_ packet.
 
-<<<
 Synchronization sequences are typically inserted periodically.  In addition, a sufficiently long run of _null_ packets (due to a lack of _normal_ packets to send) may also serve as an 'opportunistic' synchronization sequence.  For unframed data streams, this requires _null.alignment_ packets to be included, either as every (N+1)th _null_, or as the final _null_.
 
 For writing unframed data to memory, alternative synchronisation mechanisms may also be employed.   For example, by dividing memory into blocks of known size, and requiring that packets do not straddle block boundaries.  The first byte of every block will therefore be the start of a packet.  Details of such schemes are out of scope of this specification.
