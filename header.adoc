@@ -3,9 +3,9 @@ Authors: Iain Robertson
 :docgroup: RISC-V Task Group
 :description: Diagnostic & Data Transport Encapsulation
 :company: RISC-V.org
-:revdate: 4/8/2023
-:revnumber: 0.0.7-draft
-:revremark: This document is under development. Expect potential changes. Visit http://riscv.org/spec-state for further details.
+:revdate: 4/9/2024
+:revnumber: 1.0.0-rc1
+:revremark: Frozen. Visit http://riscv.org/spec-state for further details.
 :revinfo:
 :url-riscv: http://riscv.org
 :doctype: book
