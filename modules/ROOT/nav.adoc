@@ -1,5 +1,5 @@
 .E-Trace-Encapsulation Specification
 * xref:intro.adoc[Introduction]
-* xref:contributors.adoc[Contributors]
+* xref:ROOT/contributors.adoc[Contributors]
 * xref:encapsulation.adoc[Encapsulation Format]
 * xref:e-trace-specifics.adoc[E-Trace Specifics]
