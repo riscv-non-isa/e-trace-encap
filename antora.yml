@@ -1,6 +1,6 @@
 name: etrace
 title: E-Trace Encapsulation Specification
 version: ~
-start_page: ROOT::header.adoc
+#start_page: ROOT::header.adoc
 nav:
 - modules/ROOT/nav.adoc
