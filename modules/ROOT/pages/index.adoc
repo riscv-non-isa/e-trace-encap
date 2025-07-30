@@ -1,0 +1,4 @@
+= E-Trace Encapsulation Specification
+
+//include::header.adoc[]
+E-Trace Encapsulation Specification placeholder.
