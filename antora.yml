@@ -1,7 +1,6 @@
 name: etrace
 title: E-Trace Encapsulation Specification
 version: v1.0
-pdf-file: https://github.com/riscv/docs.riscv.org/blob/main/static/pdf/e-trace-encap.pdf
 #start_page: ROOT::header.adoc
 nav:
 - modules/ROOT/nav.adoc
