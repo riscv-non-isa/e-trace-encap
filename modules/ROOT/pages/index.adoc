@@ -1,4 +1,8 @@
-= E-Trace Encapsulation Specification
+image::risc-v_logo.svg[]
 
-//include::header.adoc[]
-E-Trace Encapsulation Specification placeholder.
+== Unformatted Trace & Diagnostic Data Packet Encapsulation for RISC-V
+
+
+Authors: Iain Robertson
+
+Version v1.0, 2024-07-05: Ratified

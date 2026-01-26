@@ -1,4 +1,5 @@
-.E-Trace-Encapsulation Specification
+.Unformatted Trace & Diagnostic Data Packet Encapsulation
+* xref:index.adoc[Unformatted Trace & Diagnostic Data Packet Encapsulation]
 * xref:intro.adoc[Introduction]
 * xref:contributors.adoc[Contributors]
 * xref:encapsulation.adoc[Encapsulation Format]
