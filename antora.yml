@@ -1,7 +1,6 @@
 name: etrace
-title: E-Trace Encapsulation Specification
+title: Unformatted Trace & Diagnostic Data Packet Encapsulation
 version: v1.0
-#start_page: ROOT::header.adoc
 nav:
 - modules/ROOT/nav.adoc
 
