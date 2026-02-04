@@ -1,5 +1,6 @@
 .Unformatted Trace & Diagnostic Data Packet Encapsulation
 * xref:index.adoc[Unformatted Trace & Diagnostic Data Packet Encapsulation]
+* xref:etrace-copyright.adoc[Copyright]
 * xref:intro.adoc[Introduction]
 * xref:contributors.adoc[Contributors]
 * xref:encapsulation.adoc[Encapsulation Format]
