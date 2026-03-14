@@ -8,7 +8,7 @@ on:
         description: 'Release version, e.g. X.Y.Z:'
         required: true
         type: string
-      revision_mark: 
+      revision_mark:
           description: 'Set revision mark as Draft, Release or Stable:'
           required: true
           type: string
@@ -35,7 +35,7 @@ jobs:
     steps:
     # Step 1: Checkout the repository
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         submodules: 'recursive'
 
@@ -52,15 +52,15 @@ jobs:
 
     # Step 4: Upload the built PDF files as a single artifact
     - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: Build Artifacts
         path: ${{ github.workspace }}/*.pdf
         retention-days: 30
-      
+
     # Create Release
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: ${{ github.workspace }}/*.pdf
         tag_name: v${{ github.event.inputs.version }}
@@ -69,5 +69,5 @@ jobs:
         prerelease: ${{ github.event.inputs.prerelease }}
       env:
         GITHUB_TOKEN: ${{ secrets.GHTOKEN }}
-      if: github.event_name == 'workflow_dispatch' 
+      if: github.event_name == 'workflow_dispatch'
       # This condition ensures this step only runs for workflow_dispatch events.
