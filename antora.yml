@@ -6,6 +6,8 @@ nav:
 
 asciidoc:
   attributes:
+    page-group: debug-trace-ras
+    page-card-description: 'Encapsulation format for emitted trace data.'
+    page-release-date: 'June 2024'
     page-pdf_url: _attachments/e-trace-encap.pdf
     more_details_url: https://riscv.atlassian.net/wiki/external/NDZjYTFmZjQ1YTRhNDIxMjljODViYWU1YzQwMjRlNjk
-    page-group: debug-trace-ras
