@@ -1,4 +1,4 @@
-.Unformatted Trace & Data Packet Encapsulation
+.Unformatted Trace & Data Encapsulation
 * xref:index.adoc[Title Page]
 * xref:etrace-copyright.adoc[Copyright]
 * xref:intro.adoc[Introduction]

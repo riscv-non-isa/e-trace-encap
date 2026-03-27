@@ -1,5 +1,5 @@
 name: etrace
-title: Unformatted Trace & Data Packet Encapsulation
+title: Unformatted Trace & Data Encapsulation
 version: v1.0
 nav:
 - modules/ROOT/nav.adoc
