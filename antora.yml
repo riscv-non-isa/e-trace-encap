@@ -1,0 +1,14 @@
+name: etrace
+title: Unformatted Trace & Data Encapsulation
+version: v1.0
+nav:
+- modules/ROOT/nav.adoc
+
+asciidoc:
+  attributes:
+    page-group: debug-trace-ras
+    page-card-description: 'Encapsulation format for emitted trace data.'
+    page-release-date: 'June 2024'
+    page-pdf_url: _attachments/e-trace-encap.pdf
+    more_details_url: https://riscv.atlassian.net/wiki/external/NDZjYTFmZjQ1YTRhNDIxMjljODViYWU1YzQwMjRlNjk
+
