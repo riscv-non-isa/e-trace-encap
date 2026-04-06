@@ -1,6 +1,7 @@
 .Unformatted Trace & Data Encapsulation
 * xref:index.adoc[Title Page]
-* xref:etrace-copyright.adoc[Copyright]
+* xref:changelog.adoc[Change Log]
+* xref:copyright.adoc[Copyright]
 * xref:contributors.adoc[Contributors]
 * xref:intro.adoc[Introduction]
 * xref:encapsulation.adoc[Encapsulation Format]
