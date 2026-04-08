@@ -1,4 +1,4 @@
-name: etrace
+name: trace-encap
 title: Unformatted Trace & Data Encapsulation
 version: v1.0
 nav:
@@ -11,4 +11,3 @@ asciidoc:
     page-release-date: 'June 2024'
     page-pdf_url: _attachments/e-trace-encap.pdf
     more_details_url: https://riscv.atlassian.net/wiki/external/NDZjYTFmZjQ1YTRhNDIxMjljODViYWU1YzQwMjRlNjk
-
